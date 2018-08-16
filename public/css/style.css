@@ -1,0 +1,27 @@
+body,html{
+    margin:0;
+    padding:0;
+    height: 100%;
+    width: 100%;
+}
+#app{
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+#bgCanvas{
+    display: block;
+    background-color:#78b6d2; 
+    position: absolute;
+}
+.gameCanvas{
+    position: absolute;
+}
+#frontCanvas{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom:0;
+}
