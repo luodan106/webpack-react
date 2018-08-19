@@ -26,3 +26,16 @@ body,html{
     bottom:0;
     background-color: aliceblue;
 }
+.startBtn{
+    background-color: #00000000;
+    border:none;
+    font-family: 'STHupo';
+    font-size: 30px;
+    color:#7b7bbf;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+}
