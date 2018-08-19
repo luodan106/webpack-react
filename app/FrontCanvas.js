@@ -18,85 +18,76 @@ export default class FrontCanvas extends React.Component {
         this.collision = false;
         this.frags = [];
         this.newP = 50;
-        this.state = {
-            startBtn: 'block'
+        this.state={
+            startBtn:'block'
         }
     }
     componentDidMount() {
         const frontCanvas = document.getElementById("frontCanvas");
-
+        
         this.initPosition = {
             x: 50,
-            y: 50,
+            y:  50,
             xSpeed: 2,
             newP: 0
         }
-        frontCanvas.addEventListener("mousemove", this.getPosition);
         this.canvasLeft = frontCanvas.getBoundingClientRect().left;
         this.ctx = frontCanvas.getContext("2d");
     }
-    startAgain = () => {
-        console.log('display');
-        if (this.destoryId) {
-            console.log(this.destoryId);
+    startAgain=()=>{
+        this.collision=false;
+        this.frags = [];
+        const frontCanvas = document.getElementById("frontCanvas");
+        frontCanvas.addEventListener("mousemove", this.getPosition);
+        if(this.destoryId){
             cancelAnimationFrame(this.destoryId);
         }
         this.setState({
-            startBtn: 'none'
-        }, console.log(this.state.startBtn));
-        this.ctx.clearRect(0, 0, this.props.windowX * 0.5, this.props.windowY * 0.5);
-
-        this.ball = [];
-        //绘制球
-        for (let i = 0; i < 6; i++) {
-            this.ball.push(this.createBall());
-        };
-        this.createBalls();
-        //绘制火柴人
-        this.drawMatchstick();
+            startBtn:'none'
+        },()=>{
+            this.ctx.clearRect(0, 0, this.props.windowX * 0.5, this.props.windowY * 0.5);
+        
+            //绘制火柴人
+            this.drawMatchstick();
+            this.ball = [];
+            //绘制球
+            for (let i = 0; i < 6; i++) {
+                this.ball.push(this.createBall());
+            };
+            this.createBalls();
+        });
+       
     }
     createStickFrag = () => {
         //火柴碎片
         for (let i = 0; i < 30; i++) {
             const frag = {
                 x: this.newP,
-                y: this.props.windowY * 0.5 - 60,
+                y: this.props.windowY*0.5-60,
                 xSpeed: Math.random() * 0.2 - 0.1,
                 ySpeed: Math.random() * 0.4 + 0.2
             }
             this.frags.push(frag);
         }
-        this.destoryId = requestAnimationFrame(this.detoryMatchStick);
+        this.destoryId=requestAnimationFrame(this.detoryMatchStick);
     }
     detoryMatchStick = () => {
-        this.fragNum = 0;
+        
         this.ctx.clearRect(0, 0, this.props.windowX * 0.5, this.props.windowY * 0.5);
         for (let i = 0; i < this.frags.length; i++) {
-            if (this.frags[i].y >= this.props.windowY * 0.5 - 5) {
-                this.fragNum++;
-            } else {
-                break;
+            if (this.frags[i].y < this.props.windowY * 0.5 - 5) {
+                this.frags[i].x += this.frags[i].xSpeed;
+                this.frags[i].y += this.frags[i].ySpeed;
+            }else{
+                this.setState({
+                    startBtn:'block'
+                })
             }
+            this.ctx.beginPath();
+            this.ctx.fillStyle = "red";
+            this.ctx.fillRect(this.frags[i].x, this.frags[i].y, 2, 2);
         }
-        if (this.fragNum == this.frags.length) {
-                    this.setState({
-                        startBtn: 'block'
-                    })
-            return;
-        }
-        else {
-            for (let i = 0; i < this.frags.length; i++) {
-                if (this.frags[i].y < this.props.windowY * 0.5 - 5) {
-                    this.frags[i].x += this.frags[i].xSpeed;
-                    this.frags[i].y += this.frags[i].ySpeed;
-                } else {
-                }
-                this.ctx.beginPath();
-                this.ctx.fillStyle = "red";
-                this.ctx.fillRect(this.frags[i].x, this.frags[i].y, 2, 2);
-            }
-            requestAnimationFrame(this.detoryMatchStick);
-        }
+        requestAnimationFrame(this.detoryMatchStick);
     }
     createBalls = () => {
         this.ctx.clearRect(0, 0, this.props.windowX * 0.5, this.props.windowY * 0.5);
@@ -115,7 +106,7 @@ export default class FrontCanvas extends React.Component {
             this.ctx.stroke();
 
             this.ballMoveId = requestAnimationFrame(this.createBalls);
-        } else {
+        } else { 
             const frontCanvas = document.getElementById("frontCanvas");
             frontCanvas.removeEventListener("mousemove", this.getPosition);
             cancelAnimationFrame(this.id);
@@ -125,7 +116,7 @@ export default class FrontCanvas extends React.Component {
     }
     updateBall = (ballObj) => {
         //获取小人当前的位置
-        const stickX = this.initPosition ? this.initPosition.x : 50;
+        const stickX=this.initPosition?this.initPosition.x:50;
         const windowX = this.props.windowX * 0.5;
         const windowY = this.props.windowY * 0.5;
         if (ballObj.ballXDirection) {
@@ -203,7 +194,7 @@ export default class FrontCanvas extends React.Component {
         this.initPosition.newP = newPosition;
         this.scheduledAnimationFrame = true;
         cancelAnimationFrame(this.id);
-        this.updatePosition();
+        this.id = requestAnimationFrame(this.updatePosition());
 
         this.ctx.beginPath();
         this.ctx.arc(newPosition, windowY - 50, 10, 0, 2 * Math.PI, true);
@@ -245,7 +236,7 @@ export default class FrontCanvas extends React.Component {
         }
         this.ctx.strokeStyle = "black";
         this.ctx.stroke();
-        this.id = requestAnimationFrame(this.updatePosition);
+        requestAnimationFrame(this.updatePosition);
     }
     //小人向左走的姿势
     drawLeft = (newX) => {
@@ -312,6 +303,7 @@ export default class FrontCanvas extends React.Component {
     }
     //生成小球
     createBall = () => {
+
         const r = Math.random() * 10 + 10;
         const x = Math.random() * (this.props.windowX * 0.5 - 2 * r) + r
         const y = Math.random() * (this.props.windowY * 0.5 - 2 * r) + r;
@@ -348,7 +340,7 @@ export default class FrontCanvas extends React.Component {
         return (
             <div className="gameCanvas" style={{ width: windowX, height: windowY }}>
                 <canvas id="frontCanvas" width={windowX * 0.5} height={windowY * 0.5}></canvas>
-                <button onClick={this.startAgain} style={{ display: this.state.startBtn, width: this.props.windowX * 0.1, height: this.props.windowY * 0.1 }} className='startBtn'>开始</button>
+                <button onClick={this.startAgain} style={{display:this.state.startBtn,width:this.props.windowX*0.1,height:this.props.windowY*0.1}} className='startBtn'>开始</button>
                 <input type="button" value="进入主页" onClick={this.openIndex} />
             </div>
         )
