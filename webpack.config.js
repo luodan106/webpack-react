@@ -21,5 +21,9 @@ module.exports={
         inline: true,
         port: 9080,
         open: true
-        }
+        },
+    externals:{
+        'React':'react',
+        'React-dom':'reactDom'
+    }
 }

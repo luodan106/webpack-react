@@ -1,4 +1,5 @@
 import React from 'react';
+import FrontCanvas from './FrontCanvas';
 
 export default class Index extends React.Component {
     constructor(props) {
@@ -85,7 +86,7 @@ export default class Index extends React.Component {
         else {
             this.ctx.beginPath();
             this.ctx.arc(rainObj.x, rainObj.y, rainObj.r, 0, Math.PI * 2, false);
-            this.ctx.strokeStyle = "rgba(255,255,255,"+rainObj.o+")";
+            this.ctx.strokeStyle = `rgba(255,255,255,${rainObj.o})`;
             this.ctx.stroke();
         }
         this.updateRain(rainObj,i);
@@ -113,10 +114,7 @@ export default class Index extends React.Component {
         return (
             <React.Fragment>
                 <canvas id="bgCanvas" width={windowX} height={windowY}></canvas>
-                <div className="gameCanvas" width={windowX} height={windowY}>
-                    <canvas id="frontCanvas"></canvas>
-                    <input type="button" value="进入主页" />
-                </div>
+                <FrontCanvas windowX={windowX} windowY={windowY}/>
             </React.Fragment>
         )
     }

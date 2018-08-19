@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Index from './Index';
+import AppRoutes from './AppRoutes';
 
 window.onload=()=>{
-	ReactDOM.render(<Index/>,document.getElementById("app"));
+	ReactDOM.render(<AppRoutes/>,document.getElementById("app"));
 	
 }
