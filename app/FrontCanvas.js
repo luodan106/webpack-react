@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 export default class FrontCanvas extends React.Component {
     constructor(props) {
@@ -149,7 +150,8 @@ export default class FrontCanvas extends React.Component {
 
         this.ctx.beginPath();
         this.ctx.arc(ballObj.x, ballObj.y, ballObj.r, 0, Math.PI * 2, false);
-        this.ctx.stroke();
+        this.ctx.fillStyle="#aeaeb7";
+        this.ctx.fill();
     }
     drawMatchstick = () => {
         const windowX = this.props.windowX * 0.5;
@@ -194,7 +196,7 @@ export default class FrontCanvas extends React.Component {
         this.initPosition.newP = newPosition;
         this.scheduledAnimationFrame = true;
         cancelAnimationFrame(this.id);
-        this.id = requestAnimationFrame(this.updatePosition());
+        this.updatePosition();
 
         this.ctx.beginPath();
         this.ctx.arc(newPosition, windowY - 50, 10, 0, 2 * Math.PI, true);
@@ -236,7 +238,7 @@ export default class FrontCanvas extends React.Component {
         }
         this.ctx.strokeStyle = "black";
         this.ctx.stroke();
-        requestAnimationFrame(this.updatePosition);
+        this.id = requestAnimationFrame(this.updatePosition);
     }
     //小人向左走的姿势
     drawLeft = (newX) => {
@@ -303,7 +305,7 @@ export default class FrontCanvas extends React.Component {
     }
     //生成小球
     createBall = () => {
-
+        
         const r = Math.random() * 10 + 10;
         const x = Math.random() * (this.props.windowX * 0.5 - 2 * r) + r
         const y = Math.random() * (this.props.windowY * 0.5 - 2 * r) + r;
@@ -319,21 +321,6 @@ export default class FrontCanvas extends React.Component {
         }
         return newBall;
     }
-
-    openIndex = () => {
-        fetch('/file/minify', {
-            method: 'post'
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log("err:" + err);
-            })
-    }
     render() {
         const windowX = this.props.windowX;
         const windowY = this.props.windowY;
@@ -341,7 +328,7 @@ export default class FrontCanvas extends React.Component {
             <div className="gameCanvas" style={{ width: windowX, height: windowY }}>
                 <canvas id="frontCanvas" width={windowX * 0.5} height={windowY * 0.5}></canvas>
                 <button onClick={this.startAgain} style={{display:this.state.startBtn,width:this.props.windowX*0.1,height:this.props.windowY*0.1}} className='startBtn'>开始</button>
-                <input type="button" value="进入主页" onClick={this.openIndex} />
+                <Link className="indexBtn"  to="/index" >进入主页</Link>
             </div>
         )
     }

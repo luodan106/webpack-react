@@ -1,5 +1,6 @@
 import React from 'react';
 import FrontCanvas from './FrontCanvas';
+import ClockCanvas from './ClockCanvas';
 
 export default class Index extends React.Component {
     constructor(props) {
@@ -115,6 +116,7 @@ export default class Index extends React.Component {
             <React.Fragment>
                 <canvas id="bgCanvas" width={windowX} height={windowY}></canvas>
                 <FrontCanvas windowX={windowX} windowY={windowY}/>
+                <ClockCanvas />
             </React.Fragment>
         )
     }
