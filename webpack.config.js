@@ -11,7 +11,8 @@ module.exports={
             test:/(\.js)$/,
             loader:"babel-loader",
             query:{
-                presets:['react','es2015','stage-1']
+                presets:['react','es2015','stage-1'],
+                plugins: [["import", { "libraryName": "antd", "style": "css" }]]
             },
             exclude:"/node_modules"
         }

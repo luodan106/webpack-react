@@ -35,6 +35,7 @@ export default class FrontCanvas extends React.Component {
         this.canvasLeft = frontCanvas.getBoundingClientRect().left;
         this.ctx = frontCanvas.getContext("2d");
     }
+    //点击开始绘制火柴人和小球
     startAgain=()=>{
         this.collision=false;
         this.frags = [];
@@ -59,6 +60,7 @@ export default class FrontCanvas extends React.Component {
         });
        
     }
+    //小人碰撞到球后产生的碎点
     createStickFrag = () => {
         //火柴碎片
         for (let i = 0; i < 30; i++) {
@@ -72,6 +74,7 @@ export default class FrontCanvas extends React.Component {
         }
         this.destoryId=requestAnimationFrame(this.detoryMatchStick);
     }
+    //碰撞后的碎点绘制
     detoryMatchStick = () => {
         
         this.ctx.clearRect(0, 0, this.props.windowX * 0.5, this.props.windowY * 0.5);
@@ -90,6 +93,7 @@ export default class FrontCanvas extends React.Component {
         }
         requestAnimationFrame(this.detoryMatchStick);
     }
+    //绘制不断变化位置的小球及人
     createBalls = () => {
         this.ctx.clearRect(0, 0, this.props.windowX * 0.5, this.props.windowY * 0.5);
         for (let i = 0; i < this.ball.length; i++) {
@@ -115,6 +119,7 @@ export default class FrontCanvas extends React.Component {
             this.createStickFrag();
         }
     }
+    //更新球以及小人的坐标位置
     updateBall = (ballObj) => {
         //获取小人当前的位置
         const stickX=this.initPosition?this.initPosition.x:50;
@@ -153,6 +158,7 @@ export default class FrontCanvas extends React.Component {
         this.ctx.fillStyle="#aeaeb7";
         this.ctx.fill();
     }
+    //火柴人的初始状态绘制
     drawMatchstick = () => {
         const windowX = this.props.windowX * 0.5;
         const windowY = this.props.windowY * 0.5;
@@ -173,6 +179,7 @@ export default class FrontCanvas extends React.Component {
 
         this.ctx.stroke();
     }
+    //获取鼠标位置，并让小人朝着鼠标点不断移动
     getPosition = (e) => {
         if (this.scheduledAnimationFrame) { return; }
         //获取火柴人的新位置

@@ -59,3 +59,20 @@ body,html{
     position: absolute;
     
 }
+.editArea{
+    float: left;
+    text-decoration: none;
+    border:1px solid  #78b6d2;
+    width: 40%;
+    min-height: 500px;
+}
+.default{
+    margin-top: 1px;
+    margin-bottom:1px; 
+}
+.transferArea{
+    display: inline-block;
+    border:1px solid  #78b6d2;
+    width: 40%;
+    min-height: 500px;
+}
